@@ -32,14 +32,16 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Configure CORS middleware for development
+# Configure CORS middleware for development and production
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",  # React default
         "http://localhost:5173",  # Vite default
         "http://localhost:8080",  # Vue default
+        "https://*.onrender.com",  # Render deployment
     ],
+    allow_origin_regex=r"https://.*\.onrender\.com",  # Allow all Render subdomains
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
