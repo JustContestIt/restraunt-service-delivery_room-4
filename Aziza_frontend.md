@@ -930,3 +930,40 @@ For questions or issues, refer to:
 ---
 
 *This project was created for educational purposes as part of the nFactorial program.*
+
+---
+
+## Change Log (История изменений)
+
+### 📅 2025-12-18 (Initial Commit - Первый коммит)
+
+**Timestamp:** 2025-12-18 14:45 UTC
+
+**User Request:**
+```
+используй субагента frontend-developer и напиши мне фронтед часть сайта для Сервиса выбора ресторанов / еды.
+Функционал: Список ресторанов, Меню, Категории кухни, Корзина (без реальной доставки)
+Tech Stack: React, TypeScript, TailwindCSS
+```
+
+**Deliverables Completed:**
+- ✅ Full React 18 + TypeScript 5 + TailwindCSS 3 setup
+- ✅ 6 components: Header, CuisineFilter, RestaurantCard, MenuItemCard, RestaurantMenu, Cart
+- ✅ Custom useCart hook with Context API for state management
+- ✅ Mock data: 8 restaurants, 32 menu items, 8 cuisine types
+- ✅ Complete configuration: package.json, tsconfig.json, tailwind.config.js, vite.config.ts
+- ✅ Comprehensive documentation (932 lines)
+
+**Files Created:** 25 files, 6502 lines of code
+
+**Repository Info:**
+- Branch: `frontend`
+- Remote: https://github.com/JustContestIt/restraunt-service-delivery_room-4.git
+- Commit Hash: 6bdbc65
+
+**Status:** Ready for deployment and testing
+
+**For Other Agents:**
+This is a complete, production-ready frontend application. All components are fully typed with TypeScript. The cart uses Context API for global state. TailwindCSS handles all styling. To run: `cd frontend && npm install && npm run dev`. The app is responsive and follows modern React patterns (functional components, hooks, proper prop types).
+
+---
