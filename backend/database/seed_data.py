@@ -2,6 +2,7 @@
 
 import aiosqlite
 import asyncio
+from backend.database.db import DB_PATH, init_db
 
 
 SAMPLE_RESTAURANTS = [
@@ -120,7 +121,10 @@ SAMPLE_MENU_ITEMS = [
 
 async def seed_database() -> None:
     """Populate database with sample data."""
-    async with aiosqlite.connect("restaurants.db") as db:
+    # Initialize database schema first
+    await init_db()
+
+    async with aiosqlite.connect(str(DB_PATH)) as db:
         # Insert restaurants
         for restaurant in SAMPLE_RESTAURANTS:
             await db.execute(
