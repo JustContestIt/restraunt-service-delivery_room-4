@@ -51,6 +51,24 @@ project/
 - **npm** or **yarn** (for frontend)
 - **pip** (for backend)
 
+### Quick Start with Scripts (Recommended)
+
+**Windows PowerShell:**
+```powershell
+.\start-dev.ps1
+```
+
+**Windows CMD:**
+```cmd
+start-dev.bat
+```
+
+This will automatically start both backend and frontend servers!
+
+See [DEV_SCRIPTS.md](DEV_SCRIPTS.md) for more details.
+
+### Manual Start
+
 ### 1. Start Backend
 
 ```bash
