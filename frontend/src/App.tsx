@@ -5,18 +5,19 @@ import { RestaurantCard } from './components/RestaurantCard';
 import { RestaurantMenu } from './components/RestaurantMenu';
 import { Cart } from './components/Cart';
 import { CartProvider } from './hooks/useCart';
-import { restaurants } from './data/restaurants';
+import { useRestaurants, useRestaurantMenu } from './hooks/useRestaurants';
 import { Restaurant, CuisineType } from './types';
 
 function AppContent() {
   const [selectedCuisine, setSelectedCuisine] = useState<CuisineType | 'All'>('All');
-  const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant | null>(null);
+  const [selectedRestaurantId, setSelectedRestaurantId] = useState<number | null>(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  const filteredRestaurants = restaurants.filter(
-    (restaurant) =>
-      selectedCuisine === 'All' || restaurant.cuisine === selectedCuisine
-  );
+  // Fetch restaurants from backend
+  const { restaurants: filteredRestaurants, loading, error } = useRestaurants(selectedCuisine);
+  
+  // Fetch selected restaurant with menu
+  const { restaurant: selectedRestaurant } = useRestaurantMenu(selectedRestaurantId);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -25,7 +26,7 @@ function AppContent() {
       {selectedRestaurant ? (
         <RestaurantMenu
           restaurant={selectedRestaurant}
-          onBack={() => setSelectedRestaurant(null)}
+          onBack={() => setSelectedRestaurantId(null)}
         />
       ) : (
         <div className="container mx-auto px-4 py-8">
@@ -43,41 +44,56 @@ function AppContent() {
             onSelectCuisine={setSelectedCuisine}
           />
 
-          <div className="mb-6">
-            <h3 className="text-2xl font-bold text-gray-800">
-              {selectedCuisine === 'All'
-                ? 'All Restaurants'
-                : `${selectedCuisine} Restaurants`}
-            </h3>
-            <p className="text-gray-600">
-              {filteredRestaurants.length} restaurant
-              {filteredRestaurants.length !== 1 ? 's' : ''} available
-            </p>
-          </div>
-
-          {filteredRestaurants.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredRestaurants.map((restaurant) => (
-                <RestaurantCard
-                  key={restaurant.id}
-                  restaurant={restaurant}
-                  onClick={() => setSelectedRestaurant(restaurant)}
-                />
-              ))}
+          {loading ? (
+            <div className="text-center py-16">
+              <div className="text-6xl mb-4">⏳</div>
+              <p className="text-gray-500 text-lg">Loading restaurants...</p>
+            </div>
+          ) : error ? (
+            <div className="text-center py-16">
+              <div className="text-6xl mb-4">❌</div>
+              <p className="text-red-500 text-lg">{error}</p>
+              <p className="text-gray-500 mt-2">Make sure the backend server is running</p>
             </div>
           ) : (
-            <div className="text-center py-16">
-              <div className="text-6xl mb-4">🔍</div>
-              <p className="text-gray-500 text-lg">
-                No restaurants found for this cuisine
-              </p>
-              <button
-                onClick={() => setSelectedCuisine('All')}
-                className="mt-4 text-primary-600 hover:text-primary-700 font-medium"
-              >
-                View all restaurants
-              </button>
-            </div>
+            <>
+              <div className="mb-6">
+                <h3 className="text-2xl font-bold text-gray-800">
+                  {selectedCuisine === 'All'
+                    ? 'All Restaurants'
+                    : `${selectedCuisine} Restaurants`}
+                </h3>
+                <p className="text-gray-600">
+                  {filteredRestaurants.length} restaurant
+                  {filteredRestaurants.length !== 1 ? 's' : ''} available
+                </p>
+              </div>
+
+              {filteredRestaurants.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {filteredRestaurants.map((restaurant) => (
+                    <RestaurantCard
+                      key={restaurant.id}
+                      restaurant={restaurant}
+                      onClick={() => setSelectedRestaurantId(parseInt(restaurant.id))}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-16">
+                  <div className="text-6xl mb-4">🔍</div>
+                  <p className="text-gray-500 text-lg">
+                    No restaurants found for this cuisine
+                  </p>
+                  <button
+                    onClick={() => setSelectedCuisine('All')}
+                    className="mt-4 text-primary-600 hover:text-primary-700 font-medium"
+                  >
+                    View all restaurants
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
       )}
