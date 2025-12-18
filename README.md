@@ -32,6 +32,8 @@ project/
 - 🎨 Modern React UI with TypeScript
 - 🎯 Restaurant browsing and filtering by cuisine
 - 🍕 Menu viewing and cart management
+- 🤖 AI-powered chatbot with OpenAI integration
+- 💬 Conversation memory and personalized recommendations
 - 📱 Responsive design with Tailwind CSS
 - ⚡ Fast development with Vite
 
@@ -141,8 +143,13 @@ The frontend connects to the backend API through:
 ### Frontend (.env)
 
 ```env
+# Backend API
 VITE_API_URL=http://localhost:8000
 VITE_DEV_MODE=true
+
+# OpenAI (Optional - for AI Chatbot)
+VITE_OPENAI_API_KEY=sk-your-api-key-here
+VITE_OPENAI_MODEL=gpt-3.5-turbo
 ```
 
 ### Backend
@@ -262,13 +269,47 @@ npm run build
 # Deploy dist/ folder to your hosting service (Vercel, Netlify, etc.)
 ```
 
+## AI Chatbot
+
+The application includes an intelligent AI chatbot that helps users discover restaurants and meals.
+
+### Features
+- 🤖 Natural language understanding
+- 💡 Smart restaurant and meal recommendations
+- 🧠 Conversation memory (remembers preferences)
+- 🔄 Dual mode: AI-powered (OpenAI) or Basic (keyword matching)
+- 💬 Interactive UI with quick actions
+
+### Setup (Optional)
+
+To enable AI-powered responses:
+
+1. Get an OpenAI API key from [https://platform.openai.com/api-keys](https://platform.openai.com/api-keys)
+
+2. Create `frontend/.env`:
+```env
+VITE_OPENAI_API_KEY=sk-your-api-key-here
+VITE_OPENAI_MODEL=gpt-3.5-turbo
+```
+
+3. Restart the frontend server
+
+The chatbot works without an API key in Basic mode using keyword matching.
+
+### Documentation
+- **AI Chatbot Guide**: `AI_Chatbot_Documentation.md`
+- **OpenAI Integration**: `OpenAI_Integration_Guide.md`
+
 ## Project Documentation
 
 - **Backend API**: `backend/README.md`
 - **API Examples**: `backend/API_EXAMPLES.md`
 - **Configuration Guide**: `backend/CONFIGURATION.md`
+- **AI Chatbot**: `AI_Chatbot_Documentation.md`
+- **OpenAI Integration**: `OpenAI_Integration_Guide.md`
 - **Requirements**: `backend/specs/restaurant-backend/requirements.md`
 - **Design**: `backend/specs/restaurant-backend/design.md`
+- **Dev Scripts**: `DEV_SCRIPTS.md`
 
 ## Tech Stack
 
