@@ -6,7 +6,7 @@
 
 import { useState, useEffect } from 'react';
 import { Restaurant, CuisineType } from '../types';
-import { fetchRestaurants, fetchRestaurantMenu } from '../services/api';
+import { fetchRestaurants, fetchRestaurantById, fetchRestaurantMenu } from '../services/api';
 import { adaptRestaurant } from '../services/dataAdapter';
 
 interface UseRestaurantsResult {
@@ -88,15 +88,9 @@ export function useRestaurantMenu(restaurantId: number | null): UseRestaurantMen
 
         // Fetch restaurant details and menu in parallel
         const [backendRestaurant, menuData] = await Promise.all([
-          fetchRestaurants().then((restaurants) =>
-            restaurants.find((r) => r.id === restaurantId)
-          ),
+          fetchRestaurantById(restaurantId),
           fetchRestaurantMenu(restaurantId),
         ]);
-
-        if (!backendRestaurant) {
-          throw new Error('Restaurant not found');
-        }
 
         const adaptedRestaurant = adaptRestaurant(backendRestaurant, menuData);
         setRestaurant(adaptedRestaurant);

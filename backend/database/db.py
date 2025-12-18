@@ -1,7 +1,12 @@
 """Database schema and connection management."""
 
+from pathlib import Path
 import aiosqlite
 from typing import Optional, List, Dict, Any
+
+# Get the absolute path to the database file
+DB_DIR = Path(__file__).parent.parent
+DB_PATH = DB_DIR / "restaurants.db"
 
 
 # Database schema SQL
@@ -39,18 +44,18 @@ CREATE INDEX IF NOT EXISTS idx_menu_category ON menu_items(category);
 async def get_db_connection() -> aiosqlite.Connection:
     """
     Create and return a database connection.
-    
+
     Returns:
         Async database connection with Row factory
     """
-    db = await aiosqlite.connect("restaurants.db")
+    db = await aiosqlite.connect(str(DB_PATH))
     db.row_factory = aiosqlite.Row
     return db
 
 
 async def init_db() -> None:
     """Initialize database schema and seed data."""
-    async with aiosqlite.connect("restaurants.db") as db:
+    async with aiosqlite.connect(str(DB_PATH)) as db:
         # Create tables and indexes
         await db.executescript(CREATE_TABLES_SQL)
         await db.commit()
